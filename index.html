@@ -1,0 +1,30 @@
+<!doctype html>
+<html ng-app="tictactoe">
+	<head>
+		<title>Stronka</title>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+	</head>
+	<body>
+		<h1>Kółko i krzyżyk</h1>
+		
+		<div class="field" 
+			ng-controller="TicTacToeController as game">
+			<h3>Aktualny gracz: {{game.currentPlayer}}</h3>
+			<div class="row" ng-repeat="row in game.state track by $index" ng-init="i = $index">
+				<div class="cell" 
+					ng-repeat="cell in row track by $index" 
+					ng-attr-id="{{ i + '_' + $index }}"
+					ng-click="game.putSign($event)">
+				{{game.state[i][$index]}}
+				</div>
+			</div>
+			<a href="#" id="activator">Kliknij tutaj</a>
+		</div>
+		<div class="second" id="cnt">
+			Drugi napis
+		</div>
+		<script src="game.js"></script>
+	</body>
+</html>

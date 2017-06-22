@@ -1,0 +1,47 @@
+* {
+	box-sizing: border-box;
+}
+
+div {
+	padding: 20px;
+}
+
+.row {
+	clear: both;
+}
+
+.field {
+	width: 500px;
+	height: 500px;
+}
+
+.cell {
+	background: #dcdefe;
+	width: calc(33.3% - 5px);
+	float: left;
+	text-align: center;
+	margin-right: 5px;
+	font-size: 25px;
+	height: 80px;
+	transition: all 0.7s;
+	cursor: pointer;
+}
+
+.cell:hover {
+	background: #feddae;
+}
+
+.first {
+	background-color: red;
+	float: left;
+	width: 50%;
+	transition: all 2s;
+}
+
+.second {
+	background-color: blue;
+}
+
+.first:hover {
+	background-color: yellow;
+}
