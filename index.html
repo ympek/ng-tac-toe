@@ -15,7 +15,7 @@
 		<h3 ng-show="game.finished">{{game.resultText}}</h3>
 		<div class="row" ng-repeat="row in game.state track by $index" ng-init="i = $index">
 			<div class="cell" ng-repeat="cell in row track by $index" ng-attr-id="{{ i + '_' + $index }}" ng-click="game.putSign($event)">
-				{{game.state[i][$index]}}
+				<span ng-bind-html="game.state[i][$index] | nbsp"></span>
 			</div>
 		</div>
 	</div>

@@ -1,11 +1,23 @@
 angular
   .module("tictactoe", [])
-  .controller("TicTacToeController", GameController);
+  .filter('nbsp', function ($sce) {
+	  return function (input) {
+		  if (input === '') {
+			  return $sce.trustAsHtml('&nbsp;');
+		  } else {
+			  return $sce.trustAsHtml(input);
+		  }
+	  }
+  })
+  .controller("TicTacToeController", ['nbspFilter', GameController]);
 
-function GameController() {
+function GameController(nbspFilter) {
+
+  this.SIZE = 3; 
+
   this.state = [];
   this.currentPlayer = "X";
-  this.movesLeft = 9;
+  this.movesLeft = this.SIZE * this.SIZE;
 
   this.finished = false;
   this.resultText = "";
@@ -16,9 +28,9 @@ function GameController() {
 }
 
 GameController.prototype.initState = function() {
-  for (var i = 0; i < 3; i++) {
+  for (var i = 0; i < this.SIZE; i++) {
     this.state[i] = [];
-    for (var j = 0; j < 3; j++) {
+    for (var j = 0; j < this.SIZE; j++) {
       this.state[i][j] = "";
     }
   }
@@ -50,62 +62,52 @@ GameController.prototype.moveAllowed = function(i, j) {
 };
 
 GameController.prototype.check = function() {
-  var xCounter = 0;
-  var oCounter = 0;
+  var xCounter = oCounter = 0;
 
   var winner = false;
 
   // poziomy
-  for (var i = 0; i < 3; i++) {
-    for (var j = 0; j < 3; j++) {
+  for (var i = 0; i < this.SIZE; i++) {
+    for (var j = 0; j < this.SIZE; j++) {
       if (this.state[i][j] == "O") oCounter++;
       if (this.state[i][j] == "X") xCounter++;
     }
-    if (oCounter == 3) winner = "O";
-    if (xCounter == 3) winner = "X";
+    if (oCounter == this.SIZE) winner = "O";
+    if (xCounter == this.SIZE) winner = "X";
 
-    xCounter = 0;
-    oCounter = 0;
+    xCounter = oCounter = 0;
   }
 
   // piony
-  for (var i = 0; i < 3; i++) {
-    for (var j = 0; j < 3; j++) {
+  for (var i = 0; i < this.SIZE; i++) {
+    for (var j = 0; j < this.SIZE; j++) {
       if (this.state[j][i] == "O") oCounter++;
       if (this.state[j][i] == "X") xCounter++;
     }
-    if (oCounter == 3) winner = "O";
-    if (xCounter == 3) winner = "X";
+    if (oCounter == this.SIZE) winner = "O";
+    if (xCounter == this.SIZE) winner = "X";
 
-    xCounter = 0;
-    oCounter = 0;
+    xCounter = oCounter = 0;
   }
   // skosy
-  if (this.state[0][0] == "O") oCounter++;
-  if (this.state[0][0] == "X") xCounter++;
 
-  if (this.state[1][1] == "O") oCounter++;
-  if (this.state[1][1] == "X") xCounter++;
+  for (var i = 0; i < this.SIZE; i++) {
+	if (this.state[i][i] == "O") oCounter++;
+    if (this.state[i][i] == "X") xCounter++;
+  }
 
-  if (this.state[2][2] == "O") oCounter++;
-  if (this.state[2][2] == "X") xCounter++;
+  if (oCounter == this.SIZE) winner = "O";
+  if (xCounter == this.SIZE) winner = "X";
 
-  if (oCounter == 3) winner = "O";
-  if (xCounter == 3) winner = "X";
-  xCounter = 0;
-  oCounter = 0;
+  xCounter = oCounter = 0;
 
-  if (this.state[0][2] == "O") oCounter++;
-  if (this.state[0][2] == "X") xCounter++;
+  for (var i = 0, j = this.SIZE - 1; i < this.SIZE; i++, j--) {
+	if (this.state[i][j] == "O") oCounter++;
+    if (this.state[i][j] == "X") xCounter++;
+  }
 
-  if (this.state[1][1] == "O") oCounter++;
-  if (this.state[1][1] == "X") xCounter++;
-
-  if (this.state[2][0] == "O") oCounter++;
-  if (this.state[2][0] == "X") xCounter++;
-
-  if (oCounter == 3) winner = "O";
-  if (xCounter == 3) winner = "X";
+  if (oCounter == this.SIZE) winner = "O";
+  if (xCounter == this.SIZE) winner = "X";
 
   if (!winner) {
     if (this.movesLeft === 0) {

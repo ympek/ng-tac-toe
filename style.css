@@ -2,12 +2,11 @@
 	box-sizing: border-box;
 }
 
-div {
-	padding: 20px;
-}
-
 .row {
 	clear: both;
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: space-between;
 }
 
 .field {
@@ -16,15 +15,17 @@ div {
 }
 
 .cell {
+	flex-grow: 1;
 	background: #dcdefe;
-	width: calc(33.3% - 5px);
 	float: left;
 	text-align: center;
-	margin-right: 5px;
-	font-size: 25px;
-	height: 80px;
+	font-size: 30px;
+	border: 1px solid white;
+	height: 70px;
 	transition: all 0.7s;
 	cursor: pointer;
+	padding: 10px 5px;
+	font-family: Consolas, monospace;
 }
 
 .cell:hover {
@@ -36,12 +37,4 @@ div {
 	float: left;
 	width: 50%;
 	transition: all 2s;
-}
-
-.second {
-	background-color: blue;
-}
-
-.first:hover {
-	background-color: yellow;
 }
